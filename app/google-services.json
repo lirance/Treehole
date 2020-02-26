@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "257315859907",
+    "firebase_url": "https://treehole-8c760.firebaseio.com",
+    "project_id": "treehole-8c760",
+    "storage_bucket": "treehole-8c760.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257315859907:android:32053f249af650c0452176",
+        "android_client_info": {
+          "package_name": "com.oregonstate.edu.treehole"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257315859907-lf3hjmjgr0mbghv17belbcdpslk1esn4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oregonstate.edu.treehole",
+            "certificate_hash": "5ac71e7a586bdcf895da35a7908cfe950c644899"
+          }
+        },
+        {
+          "client_id": "257315859907-ju56m11of663aie24npi9ijiqimjbo5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJDnDEZcyqp9tWWc1icY7GhiZMpDxcdlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257315859907-ju56m11of663aie24npi9ijiqimjbo5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
