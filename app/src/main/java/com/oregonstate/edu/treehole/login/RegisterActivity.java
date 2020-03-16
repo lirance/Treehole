@@ -1,7 +1,6 @@
 package com.oregonstate.edu.treehole.login;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,9 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.oregonstate.edu.treehole.R;
 
-
-public class LoginActivity extends AppCompatActivity {
-
+public class RegisterActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private static final String TAG = LoginActivity.class.getSimpleName();
     private FirebaseAuth mAuth;
@@ -41,15 +38,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        usernameEditText = findViewById(R.id.username_lg);
-        passwordEditText = findViewById(R.id.password_lg);
-        final Button loginButton = findViewById(R.id.login_lg);
-        final Button registerButton = findViewById(R.id.register_lg);
-        loadingProgressBar = findViewById(R.id.loading_lg);
+        usernameEditText = findViewById(R.id.username_rg);
+        passwordEditText = findViewById(R.id.password_rg);
+        final Button registerButton = findViewById(R.id.register_rg);
+        loadingProgressBar = findViewById(R.id.loading_rg);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -57,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginFormState == null) {
                     return;
                 }
-                loginButton.setEnabled(loginFormState.isDataValid());
+                registerButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
                 }
@@ -91,45 +87,39 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    login(usernameEditText.getText().toString(),
+                    register(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
                 }
                 return false;
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                login(usernameEditText.getText().toString(),
+                register(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                register(view);
-            }
-        });
     }
 
-    private void login(String email, final String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
+    private void register(String email, final String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         loadingProgressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUiWithUser(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "no such user", Toast.LENGTH_LONG).show();
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -138,19 +128,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(FirebaseUser model) {
         if (model != null) {
-            String welcome = getString(R.string.welcome) + model.getDisplayName();
+            String welcome = getString(R.string.welcome) + model.getEmail();
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK);
             finish();
         } else {
             Toast.makeText(getApplicationContext(), "no such user", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void register(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-        finish();
-
     }
 }

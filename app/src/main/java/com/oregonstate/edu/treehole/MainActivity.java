@@ -18,11 +18,16 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.oregonstate.edu.treehole.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseAuth mAuth;
+    private NavigationView navigationView;
+    private TextView emailTV;
 
 
     @Override
@@ -31,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
+        mAuth = FirebaseAuth.getInstance();
 
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -42,24 +48,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-
-        if (navigationView.getHeaderCount() > 0) {
-            View header = navigationView.getHeaderView(0);
-            Button button = header.findViewById(R.id.bt_login);
-            button.setText("log out");
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    login(view);
-                }
-            });
-            TextView un = (TextView) header.findViewById(R.id.textView);
-            un.setText("testtesttsetsd");
-        }
-
+        navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
@@ -89,5 +78,50 @@ public class MainActivity extends AppCompatActivity {
     private void login(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        if (navigationView.getHeaderCount() > 0) {
+            View header = navigationView.getHeaderView(0);
+            emailTV = header.findViewById(R.id.username);
+
+            Button button = header.findViewById(R.id.bt_login_nv);
+            if (currentUser != null) {
+                button.setText("log out");
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mAuth.signOut();
+                        updateUI(mAuth.getCurrentUser());
+
+                    }
+                });
+                emailTV.setText(currentUser.getEmail());
+            } else {
+                button.setText("log in");
+                emailTV.setText("");
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        login(view);
+                    }
+                });
+            }
+        }
+
+
+    }
+
+
 }
