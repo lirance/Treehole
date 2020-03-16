@@ -30,4 +30,5 @@
     <string name="likes">%1$d likes</string>
     <string name="write_your_secret">write your secret</string>
     <string name="send_a_secret_post">send a secret post</string>
+    <string name="write_your_comment">write your comment</string>
 </resources>
