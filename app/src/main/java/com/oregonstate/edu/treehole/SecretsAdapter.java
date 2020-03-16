@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -74,7 +75,7 @@ public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsV
 
         void bind(Secret secret) {
             mSecretContentTV.setText(secret.content);
-            mSecretTimeTV.setText(secret.time.toString());
+            mSecretTimeTV.setText(new Date(secret.time).toString());
 
             String replyButtonString = mReplyBT.getContext().getString(
                     R.string.comment, secret.comments
