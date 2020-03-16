@@ -15,28 +15,33 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.oregonstate.edu.treehole.R;
+import com.oregonstate.edu.treehole.SecretDetailActivity;
+import com.oregonstate.edu.treehole.SecretsAdapter;
+import com.oregonstate.edu.treehole.data.model.Secret;
 import com.oregonstate.edu.treehole.login.LoginActivity;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SecretsAdapter.OnSecretTouchedListener {
 
     private HomeViewModel homeViewModel;
+
+    private View root;
+    private SecretsAdapter secretsAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-
+        root = inflater.inflate(R.layout.fragment_home, container, false);
+        //  final TextView textView = root.findViewById(R.id.text_home);
 
 
         return root;
     }
 
+    @Override
+    public void onSecretTouched(Secret secret) {
+        Intent intent = new Intent(getActivity(), SecretDetailActivity.class);
+        // intent.putExtra(OpenWeatherMapUtils.EXTRA_FORECAST_ITEM, forecastItem);
+        startActivity(intent);
+    }
 }

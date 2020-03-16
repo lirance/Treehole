@@ -9,30 +9,30 @@
             android:icon="@drawable/ic_action_home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_hot"
             android:icon="@drawable/ic_action_hot"
             android:title="@string/menu_hot" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_action_mine"
             android:title="@string/menu_slideshow" />
-        <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+        <!--        <item-->
+        <!--            android:id="@+id/nav_tools"-->
+        <!--            android:icon="@drawable/ic_menu_manage"-->
+        <!--            android:title="@string/menu_tools" />-->
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
-        </menu>
-    </item>
+    <!--    <item android:title="Communicate">-->
+    <!--        <menu>-->
+    <!--            <item-->
+    <!--                android:id="@+id/nav_share"-->
+    <!--                android:icon="@drawable/ic_menu_share"-->
+    <!--                android:title="@string/menu_share" />-->
+    <!--            <item-->
+    <!--                android:id="@+id/nav_send"-->
+    <!--                android:icon="@drawable/ic_menu_send"-->
+    <!--                android:title="@string/menu_send" />-->
+    <!--        </menu>-->
+    <!--    </item>-->
 
 </menu>

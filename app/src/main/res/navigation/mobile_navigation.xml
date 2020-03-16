@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_hot"
         android:name="com.oregonstate.edu.treehole.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:label="@string/menu_hot"
+        tools:layout="@layout/fragment_hot" />
 
     <fragment
         android:id="@+id/nav_slideshow"
