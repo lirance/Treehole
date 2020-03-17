@@ -1,8 +1,9 @@
 package com.oregonstate.edu.treehole.data.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Secret {
+public class Secret implements Serializable {
     public String secretId;
     public long time;
     public String content;

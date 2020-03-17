@@ -42,7 +42,6 @@ public class AddSecretActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_send_secret:
                 sendSecret();
-                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -51,6 +50,9 @@ public class AddSecretActivity extends AppCompatActivity {
 
     private void sendSecret() {
         String secretText = mSecretEntryET.getText().toString();
+        if (secretText.isEmpty()) {
+            return;
+        }
         Secret secret = new Secret(secretText);
         String uuid = secret.secretId;
         // insert secret
@@ -63,5 +65,6 @@ public class AddSecretActivity extends AppCompatActivity {
             DatabaseReference usRef = myRef.child("userSecrets");
             usRef.child(uid).child(uuid).setValue(secret);
         }
+        finish();
     }
 }

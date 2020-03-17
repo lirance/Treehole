@@ -1,9 +1,9 @@
 package com.oregonstate.edu.treehole;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oregonstate.edu.treehole.data.model.Secret;
@@ -60,8 +61,8 @@ public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsV
     class SecretsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mSecretContentTV;
         private TextView mSecretTimeTV;
-        private Button mReplyBT;
-        private Button mLikesBT;
+        private TextView mReplyBT;
+        private TextView mLikesBT;
 
         public SecretsViewHolder(final View itemView) {
             super(itemView);
@@ -84,8 +85,18 @@ public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsV
             String likesButtonString = mLikesBT.getContext().getString(
                     R.string.likes, secret.likes
             );
+            Drawable comment = ContextCompat.getDrawable(mReplyBT.getContext(), R.drawable.ic_action_review);
+            Drawable heart = ContextCompat.getDrawable(mReplyBT.getContext(), R.drawable.ic_action_heart);
+
+//            comment.setBounds(0, 0, comment.getMinimumWidth(), comment.getMinimumHeight());
+//            heart.setBounds(0, 0, heart.getMinimumWidth(), heart.getMinimumHeight());
             mReplyBT.setText(replyButtonString);
+//            mReplyBT.setCompoundDrawables(comment, null, null, null);
+
+//            mReplyBT.setCompoundDrawablePadding(ContextUtil.dp2px(this, 5));
             mLikesBT.setText(likesButtonString);
+//            mLikesBT.setCompoundDrawables(heart, null, null, null);
+
         }
 
         @Override

@@ -6,13 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +23,6 @@ import com.oregonstate.edu.treehole.R;
 import com.oregonstate.edu.treehole.SecretDetailActivity;
 import com.oregonstate.edu.treehole.SecretsAdapter;
 import com.oregonstate.edu.treehole.data.model.Secret;
-import com.oregonstate.edu.treehole.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +58,10 @@ public class HomeFragment extends Fragment
                 GenericTypeIndicator<Map<String, Secret>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Secret>>() {
                 };
                 Map<String, Secret> secrets = dataSnapshot.getValue(genericTypeIndicator);
+                if (secrets == null || secrets.isEmpty()) {
+                    // nothing to get
+                    return;
+                }
                 List<Secret> list = new ArrayList<>();
 
                 for (Map.Entry<String, Secret> entry : secrets.entrySet()) {
@@ -86,7 +85,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onSecretTouched(Secret secret) {
         Intent intent = new Intent(getActivity(), SecretDetailActivity.class);
-        // intent.putExtra(OpenWeatherMapUtils.EXTRA_FORECAST_ITEM, forecastItem);
+        intent.putExtra("Secret", secret);
         startActivity(intent);
     }
 }

@@ -26,8 +26,8 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="action_register">register</string>
-    <string name="comment">%1$d comment</string>
-    <string name="likes">%1$d likes</string>
+    <string name="comment">  %1$d</string>
+    <string name="likes">  %1$d</string>
     <string name="write_your_secret">write your secret</string>
     <string name="send_a_secret_post">send a secret post</string>
     <string name="write_your_comment">write your comment</string>
