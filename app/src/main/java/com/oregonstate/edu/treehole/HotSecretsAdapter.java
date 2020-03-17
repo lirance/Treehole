@@ -8,10 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +18,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.oregonstate.edu.treehole.data.UpdateSecret;
 import com.oregonstate.edu.treehole.data.model.Secret;
 
-public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsViewHolder> {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.SecretsViewHolder> {
 
     private List<Secret> mSecretList;
     private List<String> mLikeList;
@@ -32,7 +32,7 @@ public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsV
         void onSecretTouched(Secret secret, boolean like);
     }
 
-    public SecretsAdapter(OnSecretTouchedListener listener) {
+    public HotSecretsAdapter(OnSecretTouchedListener listener) {
         mSecretList = new ArrayList<>();
         mLikeList = new ArrayList<>();
         mListener = listener;

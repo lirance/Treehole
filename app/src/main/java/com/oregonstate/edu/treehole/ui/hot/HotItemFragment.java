@@ -1,4 +1,4 @@
-package com.oregonstate.edu.treehole.ui.home;
+package com.oregonstate.edu.treehole.ui.hot;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,19 +29,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment
+public class HotItemFragment extends Fragment
         implements SecretsAdapter.OnSecretTouchedListener {
 
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String TAG = HotItemFragment.class.getSimpleName();
     private View root;
     private SecretsAdapter secretsAdapter;
     private RecyclerView mSecretsRV;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_hot, container, false);
 
-        mSecretsRV = root.findViewById(R.id.rv_secret_items);
+        mSecretsRV = root.findViewById(R.id.rv_secret_items_hot);
         secretsAdapter = new SecretsAdapter(this);
         mSecretsRV.setAdapter(secretsAdapter);
         mSecretsRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("secrets");
-        myRef.orderByChild("time").addValueEventListener(new ValueEventListener() {
+        myRef.orderByChild("likes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Secret> list = new ArrayList<>();

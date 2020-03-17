@@ -1,4 +1,4 @@
-package com.oregonstate.edu.treehole.ui.home;
+package com.oregonstate.edu.treehole.ui.MySecrets;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,57 +24,58 @@ import com.oregonstate.edu.treehole.R;
 import com.oregonstate.edu.treehole.SecretDetailActivity;
 import com.oregonstate.edu.treehole.SecretsAdapter;
 import com.oregonstate.edu.treehole.data.model.Secret;
+import com.oregonstate.edu.treehole.ui.home.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment
+public class MySecretsFragment extends Fragment
         implements SecretsAdapter.OnSecretTouchedListener {
-
     private static final String TAG = HomeFragment.class.getSimpleName();
     private View root;
     private SecretsAdapter secretsAdapter;
     private RecyclerView mSecretsRV;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_home, container, false);
-
-        mSecretsRV = root.findViewById(R.id.rv_secret_items);
+        root = inflater.inflate(R.layout.fragment_my_secrets, container, false);
+        mSecretsRV = root.findViewById(R.id.rv_my_secret_items);
         secretsAdapter = new SecretsAdapter(this);
         mSecretsRV.setAdapter(secretsAdapter);
         mSecretsRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mSecretsRV.setHasFixedSize(true);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("secrets");
-        myRef.orderByChild("time").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Secret> list = new ArrayList<>();
-
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    list.add(ds.getValue(Secret.class));
-                }
-
-                Collections.reverse(list);
-
-                secretsAdapter.updateSecretItems(list, null);
-                Log.d(TAG, "Value is " + list);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
-            }
-        });
-
-        DatabaseReference likeRef = database.getReference("likelist");
+        DatabaseReference myRef = database.getReference("userSecrets");
         try {
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            myRef.child(userId).orderByChild("time").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<Secret> list = new ArrayList<>();
+
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        list.add(ds.getValue(Secret.class));
+                    }
+
+                    Collections.reverse(list);
+
+                    secretsAdapter.updateSecretItems(list, null);
+                    Log.d(TAG, "Value is " + list);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.w(TAG, "Failed to read value.", databaseError.toException());
+                }
+            });
+
+            DatabaseReference likeRef = database.getReference("likelist");
+
             likeRef.child(userId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

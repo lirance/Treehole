@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.oregonstate.edu.treehole.MainActivity;
 import com.oregonstate.edu.treehole.R;
 
 
@@ -141,7 +142,10 @@ public class LoginActivity extends AppCompatActivity {
             String welcome = getString(R.string.welcome) + model.getDisplayName();
             Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
             setResult(Activity.RESULT_OK);
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             finish();
+
         } else {
             Toast.makeText(getApplicationContext(), "no such user", Toast.LENGTH_LONG).show();
         }

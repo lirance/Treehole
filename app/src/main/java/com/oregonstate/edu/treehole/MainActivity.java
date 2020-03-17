@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void login(View view) {
+        finishAffinity();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
@@ -108,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         mAuth.signOut();
                         updateUI(mAuth.getCurrentUser());
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
 
                     }
                 });
