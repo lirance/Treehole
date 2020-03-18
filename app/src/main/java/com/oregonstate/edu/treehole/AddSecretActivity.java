@@ -53,7 +53,7 @@ public class AddSecretActivity extends AppCompatActivity {
         if (secretText.isEmpty()) {
             return;
         }
-        Secret secret = new Secret(secretText);
+        Secret secret = new Secret(secretText, mAuth.getCurrentUser().getUid());
         String uuid = secret.secretId;
         // insert secret
         DatabaseReference inSecRef = myRef.child("secrets");

@@ -5,7 +5,7 @@ import com.oregonstate.edu.treehole.data.model.Secret;
 
 public class UpdateSecret {
 
-    public static boolean updateSecret(Secret secret, String userId, DatabaseReference rootRef) {
+    public static boolean updateSecret(Secret secret, DatabaseReference rootRef) {
         String secretId = secret.secretId;
         // insert secret
         DatabaseReference inSecRef = rootRef.child("secrets");
@@ -13,7 +13,7 @@ public class UpdateSecret {
         // insert user secret
 
         DatabaseReference usRef = rootRef.child("userSecrets");
-        usRef.child(userId).child(secretId).setValue(secret);
+        usRef.child(secret.userId).child(secretId).setValue(secret);
 
         return true;
 

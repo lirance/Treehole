@@ -149,7 +149,7 @@ public class SecretsAdapter extends RecyclerView.Adapter<SecretsAdapter.SecretsV
                     mSecretItem.likes = mSecretItem.likes - 1;
                 }
                 // update secret & user secret
-                UpdateSecret.updateSecret(mSecretItem, userId, rootRef);
+                UpdateSecret.updateSecret(mSecretItem, rootRef);
 
             } catch (Exception e) {
                 String toastString = "please log in";

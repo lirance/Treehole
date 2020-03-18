@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +21,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.oregonstate.edu.treehole.R;
 import com.oregonstate.edu.treehole.SecretDetailActivity;
-import com.oregonstate.edu.treehole.SecretsAdapter;
+import com.oregonstate.edu.treehole.MySecretsAdapter;
 import com.oregonstate.edu.treehole.data.model.Secret;
 import com.oregonstate.edu.treehole.ui.home.HomeFragment;
 
@@ -32,10 +31,10 @@ import java.util.List;
 import java.util.Map;
 
 public class MySecretsFragment extends Fragment
-        implements SecretsAdapter.OnSecretTouchedListener {
+        implements MySecretsAdapter.OnSecretTouchedListener {
     private static final String TAG = HomeFragment.class.getSimpleName();
     private View root;
-    private SecretsAdapter secretsAdapter;
+    private MySecretsAdapter secretsAdapter;
     private RecyclerView mSecretsRV;
 
 
@@ -43,7 +42,7 @@ public class MySecretsFragment extends Fragment
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_my_secrets, container, false);
         mSecretsRV = root.findViewById(R.id.rv_my_secret_items);
-        secretsAdapter = new SecretsAdapter(this);
+        secretsAdapter = new MySecretsAdapter(this);
         mSecretsRV.setAdapter(secretsAdapter);
         mSecretsRV.setLayoutManager(new LinearLayoutManager(this.getContext()));
         mSecretsRV.setHasFixedSize(true);

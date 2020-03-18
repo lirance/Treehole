@@ -193,7 +193,7 @@ public class SecretDetailActivity extends AppCompatActivity {
             String userId = mAuth.getCurrentUser().getUid();
             // reset replyTV
             mSecretItem.comments = mSecretItem.comments + 1;
-            UpdateSecret.updateSecret(mSecretItem, userId, rootRef);
+            UpdateSecret.updateSecret(mSecretItem, rootRef);
             mComment.setText("");
             String replyButtonString = mReplyTV.getContext().getString(
                     R.string.comment, mSecretItem.comments
@@ -229,7 +229,7 @@ public class SecretDetailActivity extends AppCompatActivity {
                 mLikesTV.setCompoundDrawables(heart, null, null, null);
             }
             // update secret & user secret
-            UpdateSecret.updateSecret(mSecretItem, userId, rootRef);
+            UpdateSecret.updateSecret(mSecretItem, rootRef);
 
             String likesButtonString = mLikesTV.getContext().getString(
                     R.string.likes, mSecretItem.likes

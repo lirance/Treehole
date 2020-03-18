@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Secret implements Serializable {
     public String secretId;
+    public String userId;
     public long time;
     public String content;
     public int likes;
@@ -13,7 +14,8 @@ public class Secret implements Serializable {
     public Secret() {
     }
 
-    public Secret(String content) {
+    public Secret(String content, String userId) {
+        this.userId = userId;
         this.secretId = UUID.randomUUID().toString();
         this.time = System.currentTimeMillis();
         this.content = content;

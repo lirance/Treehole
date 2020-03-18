@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.SecretsViewHolder> {
+public class MySecretsAdapter extends RecyclerView.Adapter<MySecretsAdapter.SecretsViewHolder> {
 
     private List<Secret> mSecretList;
     private List<String> mLikeList;
@@ -32,7 +33,7 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
         void onSecretTouched(Secret secret, boolean like);
     }
 
-    public HotSecretsAdapter(OnSecretTouchedListener listener) {
+    public MySecretsAdapter(OnSecretTouchedListener listener) {
         mSecretList = new ArrayList<>();
         mLikeList = new ArrayList<>();
         mListener = listener;
@@ -61,7 +62,7 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
     @Override
     public SecretsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.post_list_item, parent, false);
+        View itemView = inflater.inflate(R.layout.my_secret_item, parent, false);
         return new SecretsViewHolder(itemView);
     }
 
@@ -76,6 +77,7 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
         private TextView mSecretTimeTV;
         private TextView mReplyBT;
         private TextView mLikesBT;
+        private ImageButton imageButton;
 
         public SecretsViewHolder(final View itemView) {
             super(itemView);
@@ -83,6 +85,7 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
             mSecretTimeTV = itemView.findViewById(R.id.tv_secret_time);
             mReplyBT = itemView.findViewById(R.id.bt_comment);
             mLikesBT = itemView.findViewById(R.id.bt_like);
+            imageButton = itemView.findViewById(R.id.ib_delete);
             mSecretContentTV.setOnClickListener(this);
             mReplyBT.setOnClickListener(this);
             mSecretTimeTV.setOnClickListener(this);
@@ -93,6 +96,15 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
                     boolean likeFlag = mLikeList.contains(secret.secretId);
                     final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
                     updateLike(view.getContext(), rootRef, likeFlag, secret);
+                }
+            });
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Secret secret = mSecretList.get(getAdapterPosition());
+                    final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                    updateDelete(view.getContext(), rootRef, secret);
+
                 }
             });
 
@@ -149,7 +161,26 @@ public class HotSecretsAdapter extends RecyclerView.Adapter<HotSecretsAdapter.Se
                     mSecretItem.likes = mSecretItem.likes - 1;
                 }
                 // update secret & user secret
-                UpdateSecret.updateSecret(mSecretItem, userId, rootRef);
+                UpdateSecret.updateSecret(mSecretItem, rootRef);
+
+            } catch (Exception e) {
+                String toastString = "please log in";
+                Toast.makeText(context, toastString, Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+
+        private void updateDelete(Context context, DatabaseReference rootRef, Secret mSecretItem) {
+
+            try {
+                // update secret & user secret
+                DatabaseReference inSecRef = rootRef.child("secrets");
+                String secretId = mSecretItem.secretId;
+                inSecRef.child(secretId).removeValue();
+
+                DatabaseReference usRef = rootRef.child("userSecrets");
+                usRef.child(mSecretItem.userId).child(secretId).removeValue();
 
             } catch (Exception e) {
                 String toastString = "please log in";
